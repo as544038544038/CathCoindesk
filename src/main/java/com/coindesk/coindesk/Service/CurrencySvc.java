@@ -3,12 +3,13 @@ package com.coindesk.coindesk.Service;
 
 import com.coindesk.coindesk.Repository.CurrencyRepository;
 import com.coindesk.coindesk.model.Currency;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class CurrencySvc {
 
     private final CurrencyRepository repository;
@@ -22,6 +23,10 @@ public class CurrencySvc {
                 .stream()
                 .sorted((c1, c2) -> c1.getCode().compareToIgnoreCase(c2.getCode()))
                 .toList();
+    }
+
+    public List<Currency> findAllSortedByCode() {
+        return repository.findAllByOrderByCodeAsc();
     }
 
     public Currency create(Currency currency) {

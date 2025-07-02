@@ -12,30 +12,30 @@ import java.util.List;
 @RequestMapping("/currencies")
 public class CurrencyController {
 
-    private final CurrencySvc service;
+    private final CurrencySvc currencySvc;
 
-    public CurrencyController(CurrencySvc service) {
-        this.service = service;
+    public CurrencyController(CurrencySvc currencySvc) {
+        this.currencySvc = currencySvc;
     }
 
     @GetMapping
-    public List<Currency> getAll() {
-        return service.findAll();
+    public List<Currency> getAllCurrencies() {
+        return currencySvc.findAllSortedByCode();
     }
 
     @PostMapping
     public ResponseEntity<Currency> create(@RequestBody Currency currency) {
-        return ResponseEntity.ok(service.create(currency));
+        return ResponseEntity.ok(currencySvc.create(currency));
     }
 
     @PutMapping("/{code}")
     public ResponseEntity<Currency> update(@PathVariable String code, @RequestBody Currency currency) {
-        return ResponseEntity.ok(service.update(code, currency));
+        return ResponseEntity.ok(currencySvc.update(code, currency));
     }
 
     @DeleteMapping("/{code}")
     public ResponseEntity<Void> delete(@PathVariable String code) {
-        service.delete(code);
+        currencySvc.delete(code);
         return ResponseEntity.noContent().build();
     }
 }
